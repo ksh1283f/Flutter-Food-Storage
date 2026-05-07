@@ -55,10 +55,12 @@ dependencies:
   dio: ^5.7.0
   google_sign_in: ^7.2.0
   sign_in_button: ^4.1.0
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
 
   flutter_lints: ^6.0.0
 
@@ -68,6 +70,22 @@ dev_dependencies:
   custom_lint: ^0.7.6
   riverpod_lint: ^2.4.3
 
+flutter_launcher_icons:
+  android: true # 안드로이드 플랫폼에 런처 아이콘 적용 여부
+  ios: true # iOS 플랫폼에 런처 아이콘 적용 여부
+  image_path: "assets/icons/app_icon.png" # 런처 아이콘으로 사용할 이미지 경로
+  adaptive_icon_background: "#000000" # 안드로이드 적응형 아이콘의 배경색 (검정색)
+  adaptive_icon_foreground: "assets/icons/app_icon.png" # 안드로이드 적응형 아이콘의 전경 이미지 경로
+  min_sdk_android: 21 # 안드로이드 최소 SDK 버전 (API 21(Android 5.0) 이상)
+
+flutter_native_splash:
+  color: "#FFFFFF" # 스플래시 화면의 배경색 설정 (흰색)
+  image: "assets/icons/splash_image.png" # 스플래시 화면에 표시될 이미지 설정 (앱 로고)
+  android: true # 안드로이드 플랫폼에 스플래시 화면 적용
+  ios: true # iOS 플랫폼에 스플래시 화면 적용
+  android_12: # Android 12 이상을 위한 추가 설정
+    color: "#FFFFFF" # Android 12 이상 스플래시 화면의 배경색 (흰색)
+    image: "assets/icons/splash_image.png" # Android 12 이상 스플래시 화면에 표시될 이미지
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
