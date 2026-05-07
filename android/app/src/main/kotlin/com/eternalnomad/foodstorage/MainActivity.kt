@@ -1,4 +1,4 @@
-package com.example.flutter_food_storage
+package com.eternalnomad.foodstorage
 
 import io.flutter.embedding.android.FlutterActivity
 
