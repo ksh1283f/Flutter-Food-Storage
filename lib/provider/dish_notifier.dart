@@ -1,0 +1,31 @@
+
+import 'package:flutter_food_storage/provider/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../domain/models/dish.dart';
+
+class DishNotifier extends AsyncNotifier<List<Dish>> {
+  @override
+  Future<List<Dish>> build() async {
+    final dishes = ref.watch(dishStorageProvider).load();
+  //
+    return dishes;
+  }
+
+  Future<void> addDish(Dish dish) async {
+    final current = state.value ?? [];
+    final updated = [...current, dish];
+    state = AsyncData(updated);
+    await ref.read(dishStorageProvider).save(updated);
+    //
+  }
+
+  Future<void> updateDish(Dish updatedDish) async {
+    final current = state.value ?? [];
+    final updated = current.map((d)=> d.id == updatedDish.id ? updatedDish : d).toList();
+    state = AsyncData(updated);
+    await ref.read(dishStorageProvider).save(updated);
+//
+  }
+}
+
+final dishNotifierProvider = AsyncNotifierProvider<DishNotifier, List<Dish>>(DishNotifier.new);

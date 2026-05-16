@@ -1,7 +1,6 @@
-
 import 'dart:convert';
 
-import 'package:flutter_food_storage/domain/logic/providers.dart';
+import 'package:flutter_food_storage/provider/providers.dart';
 import 'package:flutter_food_storage/domain/models/dish.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../models/enums.dart';
 
 const Map<DishCatergory, Map<StorageType, int>> categoryRules = {
@@ -10,4 +12,23 @@ const Map<DishCatergory, Map<StorageType, int>> categoryRules = {
 
 int getRecommendedDays(DishCatergory category, StorageType storageType) {
   return categoryRules[category]![storageType]!;
+}
+
+String dishIconPath(DishCatergory category){
+  switch (category) {
+    case DishCatergory.namul:
+      return "assets/in_app_images/namul.png";
+
+    case DishCatergory.bokkeum:
+      return "assets/in_app_images/bokkeum.png";
+
+    case DishCatergory.jorim:
+      return "assets/in_app_images/jorim.png";
+    case DishCatergory.kimchi:
+      return "assets/in_app_images/kimchi.png";
+    case DishCatergory.guk:
+      return "assets/in_app_images/guk.png";  
+    }
+      
+    return "";
 }
