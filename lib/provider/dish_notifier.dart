@@ -19,12 +19,19 @@ class DishNotifier extends AsyncNotifier<List<Dish>> {
     //
   }
 
-  Future<void> updateDish(Dish updatedDish) async {
+  Future<void> updateDish(String id, Dish updatedDish) async {
     final current = state.value ?? [];
-    final updated = current.map((d)=> d.id == updatedDish.id ? updatedDish : d).toList();
+    final updated = current.map((d)=> d.id == id ? updatedDish : d).toList();
     state = AsyncData(updated);
     await ref.read(dishStorageProvider).save(updated);
 //
+  }
+
+  Future<void> deleteDish(String id) async{
+    final currentDishes = state.value ?? [];
+    final updated = currentDishes.where((d)=> d.id != id).toList();    
+    state = AsyncData(updated);
+    await ref.read(dishStorageProvider).save(updated);
   }
 }
 

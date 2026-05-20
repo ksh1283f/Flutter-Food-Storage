@@ -59,7 +59,11 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: RoutePaths.dishDetail,
-      builder: (context, state) => DishDetailScreen(),
+      builder: (context, state) {
+        final title = appTitles[RoutePaths.dishDetail] ?? "undefined";
+        final id = state.pathParameters['id'] ?? '';
+        return DishDetailScreen(title:title,  dishId: id);
+      },
     ),
     GoRoute(
       path: RoutePaths.recipeDetail,
@@ -79,9 +83,9 @@ abstract class RoutePaths{
   static const login = '/login';
   static const introduce = '/introduce';
   static const addDish = '/add-dish';
-  static const dishDetail = '/dish-detail/:id';
+  static const dishDetail = '/dish-detail/:id';  // :id
   static const recipeList = '/recipe-list';
-  static const recipeDetail = '/recipe-detail/:id';
+  static const recipeDetail = '/recipe-detail/:id'; //:id
 }
 
 final Map<String,String> appTitles = {

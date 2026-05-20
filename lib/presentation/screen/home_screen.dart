@@ -20,7 +20,6 @@ class HomeScreen extends ConsumerWidget{
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dishes = ref.watch(dishNotifierProvider);
-    final testStorgae = ref.watch(dishStorageProvider);
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar.large(
@@ -69,13 +68,6 @@ class HomeScreen extends ConsumerWidget{
                                           textAlign: TextAlign.center,
                                           style: AppTextStyles.body,
                                         ),
-                                        // child: ElevatedButton(
-                                        //   onPressed: () {
-                                            
-                                        //     print("${testStorgae.load().length}");
-                                        //   },
-                                        //   child: const Text("count"),
-                                        // )
                                       ),
                                     );
                                   }
@@ -84,7 +76,7 @@ class HomeScreen extends ConsumerWidget{
                                   return DishCard(
                                     dish: dish,
                                     onTap: () {
-                                      context.push(RoutePaths.dishDetail);
+                                      _goToDetail(context, dish.id);
                                     },
                                   );
                                 },
@@ -117,5 +109,10 @@ class HomeScreen extends ConsumerWidget{
         ) 
       )
     );
+  }
+
+  void _goToDetail(BuildContext context, String id){
+    final path = RoutePaths.dishDetail.replaceFirst(':id', id);
+    context.push(path);
   }
 }
