@@ -1,6 +1,6 @@
 enum StorageType{
-  fridge('fridge'),
-  freezer('freezer');
+  fridge('냉장'),
+  freezer('냉동');
 
   const StorageType(this.value);
   final String value;
@@ -21,18 +21,18 @@ enum DishStatus {
     DishStatus.values.firstWhere((e) => e.value == value);
 }
 
-enum DishCatergory{
+enum DishCategory{
   namul('나물'),
   bokkeum('볶음'),
   jorim('조림'),
   kimchi('김치'),
   guk('국');
 
-  const DishCatergory(this.label);
+  const DishCategory(this.label);
   final String label;
 
-  static DishCatergory fromJson(String value) =>
-    DishCatergory.values.firstWhere((e) => e.label == value);
+  static DishCategory fromJson(String value) =>
+    DishCategory.values.firstWhere((e) => e.label == value);
 }
 
 enum DDayStatus { expired, today, soon, safe }

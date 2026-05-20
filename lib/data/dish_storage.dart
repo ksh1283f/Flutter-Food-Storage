@@ -13,7 +13,7 @@ class DishStorage {
   Future<void> save(List<Dish> dishes) async {
     // 반찬 이름을 저장하는 로직 구현
     final json = jsonEncode(dishes.map((dish) => dish.toJson()).toList());
-    await _preferences.setString( _dishesKey,json);
+    await _preferences.setString(_dishesKey,json);
   }
 
   List<Dish> load(){

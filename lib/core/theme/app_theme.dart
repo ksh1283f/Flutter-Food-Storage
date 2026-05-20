@@ -11,7 +11,7 @@ class AppSpacing{
 
 class AppTextStyles{
   static const TextStyle title  = TextStyle(
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: FontWeight.w700,
     color: AppColors.text,
   );

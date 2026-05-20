@@ -12,6 +12,7 @@ import 'package:flutter_food_storage/domain/models/enums.dart';
 import 'package:flutter_food_storage/provider/dish_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../widgets/dish_chip_widget.dart';
 import 'package:uuid/uuid.dart';
 
 const _uuid = Uuid();
@@ -26,7 +27,7 @@ class AddDishScreen extends ConsumerStatefulWidget{
 
 class _AddDishScreenState extends ConsumerState<AddDishScreen> {
   final _nameEditController = TextEditingController();
-  DishCatergory _category = DishCatergory.namul;
+  DishCategory _category = DishCategory.namul;
   StorageType _storageType = StorageType.fridge;
 
   @override
@@ -55,7 +56,7 @@ class _AddDishScreenState extends ConsumerState<AddDishScreen> {
       Dish(
         id: _uuid.v4(), 
         name: foodName,
-        catergory: _category,
+        category: _category,
         storageType: _storageType,
         createAt: now, 
         expireAt: expiredAt, 
@@ -72,57 +73,61 @@ class _AddDishScreenState extends ConsumerState<AddDishScreen> {
       appBar: AppBar(
         title:Text(widget.title),
       ),
-      body: SafeArea(
-        child:  ListView(
-          children: [
-            // input name
-            DishInputNameWidget(
-              nameEditController: _nameEditController,
-            ),
-            SizedBox(height: 20),
-            DishChipWidget<DishCatergory>(
-              widgetTitle: '카테고리', 
-              items: DishCatergory.values, 
-              selectedItem: _category, 
-              labelBuilder: (p1) => p1.label,
-              onSelected: (value) { 
-                setState(() {
-                  _category = value;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-            DishChipWidget<StorageType>(
-              widgetTitle: '보관방법', 
-              items: StorageType.values, 
-              selectedItem: _storageType, 
-              labelBuilder: (p1) => p1.value,
-              onSelected: (value) { 
-                setState(() {
-                  _storageType = value;
-                });
-              },
-            ),
-            
-            SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: ElevatedButton(  
-                onPressed: ()=> _handleSubmit(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  padding: const EdgeInsets.all(16),
-                  shadowColor: AppColors.primary.withValues(alpha: 0.5),
-                  elevation: 6,
-                ),
-                child: Text('등록하기'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
+          child:  ListView(
+            children: [
+              // input name
+              DishInputNameWidget(
+                nameEditController: _nameEditController,
               ),
-            )
-            // ChoiceChip(label: label, selected: selected)
-            // select category
-            // select type
-          ],
-        )
+              SizedBox(height: 20),
+              DishChipWidget<DishCategory>(
+                widgetTitle: '카테고리', 
+                items: DishCategory.values, 
+                selectedItem: _category, 
+                labelBuilder: (p1) => p1.label,
+                onSelected: (value) { 
+                  setState(() {
+                    _category = value;
+                  });
+                },
+              ),
+              SizedBox(height: 20),
+              DishChipWidget<StorageType>(
+                widgetTitle: '보관방법', 
+                items: StorageType.values, 
+                selectedItem: _storageType, 
+                labelBuilder: (p1) => p1.value,
+                onSelected: (value) { 
+                  setState(() {
+                    _storageType = value;
+                  });
+                },
+              ),
+              
+              SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: ElevatedButton(  
+                  onPressed: ()=> _handleSubmit(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryDark,
+                    padding: const EdgeInsets.all(16),
+                    shadowColor: AppColors.primaryDark.withValues(alpha: 0.5),
+                    elevation: 6,
+                  ),
+                  child: Text('등록하기'),
+                ),
+              )
+              // ChoiceChip(label: label, selected: selected)
+              // select category
+              // select type
+            ],
+          )
+        ),
       ),
     );
   }
@@ -150,66 +155,11 @@ class DishInputNameWidget extends StatelessWidget {
           child: TextField(
               controller: nameEditController,
               autofocus: true,
-              decoration: const InputDecoration(hintText: '예: 시금치 나물'),
+              decoration: const InputDecoration(hintText: '예: 시금치 나물(10자이내)'),
+              maxLength: 10,
               onSubmitted: (_) => onSubmit?.call(),
             ),
         ),
-      ],
-    );
-  }
-}
-
-class DishChipWidget<T> extends StatelessWidget {
-  final List<T> items;
-  final T selectedItem;
-  final String Function(T) labelBuilder;
-  final ValueChanged<T> onSelected;
-  final String widgetTitle;
-
-  final VoidCallback? onTap;
-  const DishChipWidget({
-    super.key, 
-    required this.widgetTitle, 
-    required this.items,
-    required this.selectedItem,
-    required this.labelBuilder,
-    required this.onSelected,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.sm, left: AppSpacing.md),
-          child: Text(
-            widgetTitle, 
-            style: AppTextStyles.title.copyWith(color: AppColors.text),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Wrap(
-            spacing: 8,
-            children: 
-              items.map((item) => ChoiceChip(
-                label: Text(labelBuilder(item)),
-                selected: item == selectedItem,
-                onSelected: (_) => onSelected(item),
-                side: BorderSide(
-                  color: AppColors.subText,
-                  width: 1.0,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              )
-            ).toList(),
-          )
-        ),
-        
       ],
     );
   }

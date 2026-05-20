@@ -33,7 +33,7 @@ class DishCard extends StatelessWidget{
               child: Row(
                 children: [
                   Image.asset(
-                    dishIconPath(dish.catergory),
+                    dishIconPath(dish.category),
                     fit: BoxFit.contain,
                     width: 100,
                     height: 100,
@@ -47,19 +47,25 @@ class DishCard extends StatelessWidget{
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 2,
-                                children: [
-                                  Text(
-                                    dish.name,
-                                    style: AppTextStyles.title,
-                                  ),
-                                  Text(
-                                    dish.catergory.label,
-                                    style: AppTextStyles.caption
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: 2,
+                                  children: [
+                                    Text(
+                                      dish.name,
+                                      style: AppTextStyles.title,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    Text(
+                                      dish.category.label,
+                                      style: AppTextStyles.caption,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
                               ),
                               StatusBadge(day: calcDDay(dish.expireAt)),
                             ],

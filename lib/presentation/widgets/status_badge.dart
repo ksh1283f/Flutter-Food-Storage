@@ -10,13 +10,11 @@ class StatusBadge extends StatelessWidget{
   @override
   Widget build(BuildContext context){    
     return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(        
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         color: AppColors.dDayColor(day).withValues(alpha: 0.2),
       ),
-      width: 40,
-      height: 25,
       child: Text(
         "D-${day}",
         selectionColor: AppColors.bg,
