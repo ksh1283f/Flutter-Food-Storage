@@ -12,6 +12,7 @@ class AppColors{
 
   // Deep Primary (pressed / dark mode accent)
   static const Color primaryDark = Color(0xFF2E7D64);
+  static const Color disabled = Color(0xFF6B7280);
 
   // Text
   static const Color text = Color(0xFF1A1A1A);
@@ -31,7 +32,7 @@ class AppColors{
   static const Color cream = Color(0xFFFFF8F0);
 
   static Color dDayColor(int dDay){
-    if(dDay <= 2) return warning;
+    if(dDay <= 2 && dDay > 0) return warning;
     if(dDay < 0) return neutral;
     if(dDay == 0) return danger;
 
