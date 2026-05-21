@@ -17,7 +17,7 @@ class NotificationService {
   static Future<void> init() async {
     tz.initializeTimeZones();
 
-    const androidSettings = AndroidInitializationSettings('@ipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -83,7 +83,7 @@ class NotificationService {
       id: _notiId,
       title: '🍱 반찬 알림',
       body: body,
-      scheduledDate: _nextInstanceOf9AM(), 
+      scheduledDate: _nextInstanceOf9AM(),
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           _channelId,
@@ -92,9 +92,9 @@ class NotificationService {
           importance: Importance.high,
           priority: Priority.high,
         ),
-        iOS: DarwinNotificationDetails(), // TODO
-      ), 
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        iOS: DarwinNotificationDetails(),
+      ),
+      androidScheduleMode: AndroidScheduleMode.inexact,
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }

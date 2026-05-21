@@ -64,7 +64,7 @@ class _AddDishScreenState extends ConsumerState<AddDishScreen> {
         status: DishStatus.active,
       )
     );
-    if (mounted) Navigator.of(context).pop();
+    if (mounted) context.pop();
   }
   
   @override

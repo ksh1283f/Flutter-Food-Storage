@@ -30,13 +30,13 @@ class DishDetailScreen extends ConsumerStatefulWidget{
 
 class _DishDetailScreenState extends ConsumerState<DishDetailScreen>{
   bool _isEditing = false;
-  late TextEditingController _nameController;
+  TextEditingController? _nameController;
   late DishCategory _category;
   late StorageType _storageType;
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _nameController?.dispose();
     super.dispose();
   }
 
@@ -136,7 +136,7 @@ class _DishDetailScreenState extends ConsumerState<DishDetailScreen>{
                                 overflow: TextOverflow.visible,
                               ),
                               StatusBadge(
-                                day: calcDDay(target.expireAt),
+                                day: dDay,
                               ),
                             ],
                           ),
@@ -182,7 +182,7 @@ class _DishDetailScreenState extends ConsumerState<DishDetailScreen>{
                           _row('보관방법' , target.storageType.value),
                           _row("권장보관일", '${target.recommendedDays.toString()}일'),
                           _row("등록일", target.createAt.toIso8601String().substring(0, 10)),
-                          _row("만료일", target.expireAt.toIso8601String().substring(0, 10)),
+                          _row("만료일", editExpire.toIso8601String().substring(0, 10)),
                         ],
                       )
                     ),
@@ -253,7 +253,7 @@ class _DishDetailScreenState extends ConsumerState<DishDetailScreen>{
 
       if(confirmed == true && mounted){
         await ref.read(dishNotifierProvider.notifier).deleteDish(dish.id);  
-        if(mounted) context.pop();
+        if(mounted) Navigator.of(context).pop();
       }
     }
   }
@@ -265,13 +265,15 @@ class _DishDetailScreenState extends ConsumerState<DishDetailScreen>{
     await ref.read(dishNotifierProvider.notifier).updateDish(
       widget.dishId,
       dish.copyWith(
-        name: _nameController.text.trim(),
+        name: _nameController?.text.trim(),
         catergory: _category,
         storageType: _storageType,
         recommendedDays: days,
         expireAt: expire,
       )
     );
+    if(!mounted) return;
+    
     setState(() {
       _isEditing = false;
     });

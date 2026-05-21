@@ -1,4 +1,6 @@
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_food_storage/data/notification_service.dart';
 import 'package:flutter_food_storage/provider/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/models/dish.dart';
@@ -7,7 +9,7 @@ class DishNotifier extends AsyncNotifier<List<Dish>> {
   @override
   Future<List<Dish>> build() async {
     final dishes = ref.watch(dishStorageProvider).load();
-  //
+    NotificationService.setupNotifications(dishes);
     return dishes;
   }
 
@@ -16,7 +18,7 @@ class DishNotifier extends AsyncNotifier<List<Dish>> {
     final updated = [...current, dish];
     state = AsyncData(updated);
     await ref.read(dishStorageProvider).save(updated);
-    //
+    await NotificationService.scheduleDailyReminder(updated);
   }
 
   Future<void> updateDish(String id, Dish updatedDish) async {
@@ -24,6 +26,7 @@ class DishNotifier extends AsyncNotifier<List<Dish>> {
     final updated = current.map((d)=> d.id == id ? updatedDish : d).toList();
     state = AsyncData(updated);
     await ref.read(dishStorageProvider).save(updated);
+    await NotificationService.scheduleDailyReminder(updated);
 //
   }
 
@@ -32,6 +35,7 @@ class DishNotifier extends AsyncNotifier<List<Dish>> {
     final updated = currentDishes.where((d)=> d.id != id).toList();    
     state = AsyncData(updated);
     await ref.read(dishStorageProvider).save(updated);
+    await NotificationService.scheduleDailyReminder(updated);
   }
 }
 
