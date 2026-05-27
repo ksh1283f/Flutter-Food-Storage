@@ -2,6 +2,7 @@
 import 'package:flutter_food_storage/data/remote/api_client.dart';
 import 'package:flutter_food_storage/data/remote/auth_api.dart';
 import 'package:flutter_food_storage/data/remote/auth_service.dart';
+import 'package:flutter_food_storage/data/remote/recipe_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,4 +22,8 @@ final apiClientProvider = Provider<ApiClient>((_) => ApiClient());
 
 final authApiProvider = Provider<AuthAPI>(
   (ref) => AuthAPI(client: ref.watch(apiClientProvider)),
+);
+
+final recipeApiNotifier = Provider<RecipeApi>(
+  (ref) => RecipeApi(ref.watch(apiClientProvider))
 );

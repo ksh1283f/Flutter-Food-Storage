@@ -55,7 +55,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: RoutePaths.recipeList,
-                builder: (context, state) => RecipeListScreen(),
+                builder: (context, state) {
+                  final path = state.matchedLocation;
+                  final title = appTitles[path] ?? 'undefined';
+                  return RecipeListScreen(title:title);
+                } 
               )
             ]
           ),    
@@ -83,7 +87,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: RoutePaths.recipeDetail,
-        builder: (context, state) => RecipeDetailScreen(),
+        builder: (context, state) {
+          final title = appTitles[RoutePaths.recipeDetail] ?? 'undefined';
+          final id = state.pathParameters['id'] ?? '';
+          return RecipeDetailScreen(title: title, recipeId: id);
+        },
       ),
       GoRoute(
         path: RoutePaths.login,

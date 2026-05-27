@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_food_storage/core/theme/app_colors.dart';
 import 'package:flutter_food_storage/core/theme/app_theme.dart';
+import 'package:flutter_food_storage/data/notification_service.dart';
+import 'package:flutter_food_storage/data/remote/auth_service.dart';
 import 'package:flutter_food_storage/provider/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +14,6 @@ import 'firebase_options.dart';
 // ...
 import 'presentation/screen/introduce_screen.dart';
 import './core/router/app_router.dart';
-
 
 void main() async{
   /*
@@ -27,10 +29,14 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final preferences = await SharedPreferences.getInstance();
-
+  await NotificationService.init();
+  final authService = AuthService();
+  await authService.init();
+  await FirebaseAuth.instance.authStateChanges().first;
   runApp(ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(preferences),
+      authServiceProvider.overrideWithValue(authService),
     ],
     child: const FoodStorageApp(),
   ));
